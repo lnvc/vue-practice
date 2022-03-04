@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 
 interface ITodo {
   id: number,
@@ -16,19 +16,13 @@ const todos = ref<ITodo[]>([
   { id: 4, name: 'toggle hide all completed' },
   { id: 5, name: 'add search feature' },
 ]);
-const filteredTodos = ref<ITodo[]>([...todos.value]);
 const hideCompleted = ref(false);
 
-const handleFilter = (newTodos: ITodo[]) => {
-  filteredTodos.value = newTodos.filter(todo => (hideCompleted.value ? !todo.checked : true) && todo.name.includes(searchQuery.value));
-};
-
-watch([searchQuery, todos], ([, newTodos]) => handleFilter(newTodos));
+const computedFilter = computed(() => todos.value.filter(todo => (hideCompleted.value ? !todo.checked : true) && todo.name.includes(searchQuery.value)));
 
 const createTodo = async () => {
   const newTodos = [...todos.value, { id: todos.value.length + 1, name: newTodo.value }];
   todos.value = [...newTodos];
-  handleFilter(newTodos);
   newTodo.value = '';
 };
 
@@ -38,7 +32,6 @@ const deleteTodo = (todo: ITodo) => {
 
 const handleHideCompleted = () => {
   hideCompleted.value = !hideCompleted.value;
-  handleFilter(todos.value);
 };
 
 </script>
@@ -55,7 +48,7 @@ const handleHideCompleted = () => {
       <button @click="createTodo">add</button>
     </section>
     <ol>
-      <li v-for="todo in filteredTodos" :key="todo.id" :class="[todo.checked && 'strikethrough']">
+      <li v-for="todo in computedFilter" :key="todo.id" :class="[todo.checked && 'strikethrough']">
         <input type="checkbox" v-model="todo.checked" />
         <label :for="todo.id.toString()" @click="todo.checked = !todo.checked">{{ todo.name }}</label>
         <button @click="deleteTodo(todo)">x</button>
