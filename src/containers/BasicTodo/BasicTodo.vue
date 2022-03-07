@@ -41,20 +41,29 @@ const handleHideCompleted = () => {
     <h1>todo</h1>
     <section>
       <label for="search">Search</label>
-      <input type="text" id="search" v-model="searchQuery" placeholder="search for todos..." />
+      <input
+        data-testid="search"
+        type="text"
+        id="search"
+        v-model="searchQuery"
+        placeholder="search for todos..."
+      />
     </section>
     <section>
-      <input type="text" v-model="newTodo" @keyup.enter="createTodo" />
-      <button @click="createTodo">add</button>
+      <input type="text" data-testid="todo-textbox" v-model="newTodo" @keyup.enter="createTodo" />
+      <button @click="createTodo" data-testid="add-button">add</button>
     </section>
-    <ol>
+    <ol data-testid="list">
       <li v-for="todo in computedFilter" :key="todo.id" :class="[todo.checked && 'strikethrough']">
-        <input type="checkbox" v-model="todo.checked" />
+        <input :data-testid="todo.name" type="checkbox" v-model="todo.checked" />
         <label :for="todo.id.toString()" @click="todo.checked = !todo.checked">{{ todo.name }}</label>
-        <button @click="deleteTodo(todo)">x</button>
+        <button :data-testid="todo.name" @click="deleteTodo(todo)">x</button>
       </li>
     </ol>
-    <button @click="handleHideCompleted">{{ hideCompleted ? 'show all' : 'hide completed' }}</button>
+    <button
+      data-testid="toggle"
+      @click="handleHideCompleted"
+    >{{ hideCompleted ? 'show all' : 'hide completed' }}</button>
   </main>
 </template>
 
