@@ -39,6 +39,17 @@ test('delete todo', async () => {
   expect(wrapper.find(deleteChildSelector(createTodoString)).exists()).toBe(false);
 });
 
+test('delete todo (ensure unique ids)', async () => {
+  await createTodo('1');
+  await createTodo('test');
+  await deleteTodo('test');
+  await createTodo('2');
+  await deleteTodo('1');
+  expect(wrapper.find(deleteChildSelector('2')).exists()).toBe(true);
+  expect(wrapper.find(deleteChildSelector('1')).exists()).toBe(false);
+  expect(wrapper.find(deleteChildSelector('todo')).exists()).toBe(false);
+});
+
 test('toggle show/hide completed todos', async () => {
   // initial length
   const initialLength = wrapper.findAll(childrenSelector).length;

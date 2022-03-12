@@ -21,7 +21,8 @@ const hideCompleted = ref(false);
 const computedFilter = computed(() => todos.value.filter(todo => (hideCompleted.value ? !todo.checked : true) && todo.name.includes(searchQuery.value)));
 
 const createTodo = async () => {
-  const newTodos = [...todos.value, { id: todos.value.length + 1, name: newTodo.value }];
+  const uniqueId = todos.value.reduce((currMax, item) => item.id > currMax.id ? item : currMax);
+  const newTodos = [...todos.value, { id: uniqueId.id + 1, name: newTodo.value }];
   todos.value = [...newTodos];
   newTodo.value = '';
 };

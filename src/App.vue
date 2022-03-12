@@ -6,8 +6,8 @@
 <template>
   <nav>
     <router-link to="/todo">Basic Todo</router-link>
-    <router-link to="/rick-and-morty">Rick and Morty</router-link>
-    <router-link to="/rick-and-morty">Rick and Morty Todo</router-link>
+    <router-link to="/rick-and-morty">Rick and Morty (REST)</router-link>
+    <router-link to="/rick-and-morty-gql">Rick and Morty (GraphQL)</router-link>
   </nav>
   <router-view />
 </template>

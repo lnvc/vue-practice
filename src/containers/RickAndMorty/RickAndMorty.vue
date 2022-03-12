@@ -9,11 +9,10 @@ import { CHARACTER, LOCATION, EPISODE } from '../../utils/constants';
   <main>
     <h1>rick and morty (REST)</h1>
     <nav>
-      <router-link :to="{ name: CHARACTER }">{{ CHARACTER }}</router-link>
-      <router-link :to="{ name: LOCATION }">{{ LOCATION }}</router-link>
-      <router-link :to="{ name: EPISODE }">{{ EPISODE }}</router-link>
+      <router-link :to="{ path: `/rick-and-morty/${CHARACTER}` }">{{ CHARACTER }}</router-link>
+      <router-link :to="{ path: `/rick-and-morty/${LOCATION}` }">{{ LOCATION }}</router-link>
+      <router-link :to="{ path: `/rick-and-morty/${EPISODE}` }">{{ EPISODE }}</router-link>
     </nav>
-    <!-- <List :path="selectedPath" /> -->
     <router-view />
   </main>
 </template>
