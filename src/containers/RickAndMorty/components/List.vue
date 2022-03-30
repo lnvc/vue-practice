@@ -58,8 +58,6 @@ watch(route, reinitialize);
 
 watch([currentPage, route], fetchData);
 
-onUnmounted(() => console.log('unmount'));
-
 </script>
 
 <template>

@@ -44,3 +44,13 @@ query GetAllEpisodes($page: Int) {
   }
 }
 `;
+
+export const GET_ALL_TODOS = gql`
+query getAllTodos {
+  todos {
+    id
+    name
+    checked
+  }
+}
+`;

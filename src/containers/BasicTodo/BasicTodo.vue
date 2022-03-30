@@ -1,35 +1,71 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
+import { useQuery, useMutation } from '@vue/apollo-composable';
+
+import { GET_ALL_TODOS } from '../../utils/queries';
+import { ADD_TODO, DELETE_TODO, CHECK_OR_UNCHECK } from '../../utils/mutations';
 
 interface ITodo {
   id: number,
   name: string,
   checked?: boolean,
+  __typename?: any,
 }
 
 const newTodo = ref('');
 const searchQuery = ref('');
-const todos = ref<ITodo[]>([
-  { id: 1, name: 'study vue', checked: true },
-  { id: 2, name: 'make vue app' },
-  { id: 3, name: 'add dynamic css' },
-  { id: 4, name: 'toggle hide all completed' },
-  { id: 5, name: 'add search feature' },
-]);
+const todos = ref<ITodo[]>([]);
 const hideCompleted = ref(false);
+// use client (if multiple clients)
+const options = ref({
+  clientId: 'todos'
+});
 
 const computedFilter = computed(() => todos.value.filter(todo => (hideCompleted.value ? !todo.checked : true) && todo.name.includes(searchQuery.value)));
 
+const {result: fetchedTodos, error: errorTodos, refetch: refetchTodos} = useQuery(GET_ALL_TODOS, null, options);
+const {mutate: addTodoMutation, onDone: addTodoDone} = useMutation(ADD_TODO, options);
+const {mutate: deleteTodoMutation, onDone: deleteTodoDone} = useMutation(DELETE_TODO, options);
+const {mutate: checkOrUncheckMutation, onDone: checkOrUncheckDone} = useMutation(CHECK_OR_UNCHECK, options);
+
+watchEffect(async () => {
+  todos.value = await fetchedTodos.value.todos;
+});
+
 const createTodo = async () => {
-  const uniqueId = todos.value.reduce((currMax, item) => item.id > currMax.id ? item : currMax);
-  const newTodos = [...todos.value, { id: uniqueId.id + 1, name: newTodo.value }];
-  todos.value = [...newTodos];
-  newTodo.value = '';
+  // hardcoded todos
+  // const uniqueId = todos.value.reduce((currMax, item) => item.id > currMax.id ? item : currMax);
+  // const newTodos = [...todos.value, { id: uniqueId.id + 1, name: newTodo.value }];
+  // todos.value = [...newTodos];
+  // newTodo.value = '';
+
+  // postgres todos
+  addTodoMutation({ name: newTodo.value });
 };
 
 const deleteTodo = (todo: ITodo) => {
-  todos.value = todos.value.filter(currentTodo => currentTodo.id !== todo.id);
+  // hardcoded todos
+  // todos.value = todos.value.filter(currentTodo => currentTodo.id !== todo.id);
+
+  // postgres todos
+  deleteTodoMutation({ id: todo.id.toString() });
 };
+
+const checkOrUncheck = (id: string) => {
+  checkOrUncheckMutation({ id });
+};
+
+addTodoDone(() => {
+  refetchTodos();
+});
+
+deleteTodoDone(() => {
+  refetchTodos();
+});
+
+checkOrUncheckDone(() => {
+  refetchTodos();
+})
 
 const handleHideCompleted = () => {
   hideCompleted.value = !hideCompleted.value;
@@ -57,7 +93,7 @@ const handleHideCompleted = () => {
     <ol data-testid="list">
       <li v-for="todo in computedFilter" :key="todo.id" :class="[todo.checked && 'strikethrough']">
         <input :data-testid="todo.name" type="checkbox" v-model="todo.checked" />
-        <label :for="todo.id.toString()" @click="todo.checked = !todo.checked">{{ todo.name }}</label>
+        <label :for="todo.id.toString()" @click="checkOrUncheck(todo.id.toString())">{{ todo.name }}</label>
         <button :data-testid="todo.name" @click="deleteTodo(todo)">x</button>
       </li>
     </ol>

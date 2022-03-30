@@ -1,5 +1,5 @@
 import { createApp, provide, h } from 'vue';
-import { DefaultApolloClient } from '@vue/apollo-composable';
+import { ApolloClients } from '@vue/apollo-composable';
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
 
 import App from './App.vue';
@@ -21,11 +21,22 @@ const apolloClient = new ApolloClient({
   cache,
 });
 
+const httpLink2 = createHttpLink({
+  uri: 'http://localhost:4000',
+});
+const cache2 = new InMemoryCache();
+const todosClient = new ApolloClient({
+  link: httpLink2,
+  cache: cache2,
+})
+
 const app = createApp({
   setup() {
-    provide(DefaultApolloClient, apolloClient)
+    provide(ApolloClients, {
+      default: apolloClient,
+      todos: todosClient,
+    })
   },
-
   render: () => h(App),
 });
 
