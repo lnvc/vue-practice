@@ -39,13 +39,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install packages
-        run: |
-          sudo apt-get update
-          sudo apt install yarn
-          sudo apt install node
+
+      # marketplace actions
+      - name: GitHub Action for Yarn
+        uses: Borales/actions-yarn@v2.3.0
+
+        with:
+          node-version: '16'
 
   test:
+    needs: init
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
