@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest --reporter verbose"
   },
@@ -15,15 +15,15 @@
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "vue": "^3.2.25",
-    "vue-router": "4"
-  },
-  "devDependencies": {
-    "@testing-library/vue": "^6.4.2",
-    "@vitejs/plugin-vue": "^2.2.0",
-    "happy-dom": "^2.45.1",
+    "vue-router": "4",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
     "vitest": "^0.5.9",
     "vue-tsc": "^0.29.8"
+  },
+  "devDependencies": {
+    "@testing-library/vue": "^6.4.2",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "happy-dom": "^2.45.1"
   }
 }

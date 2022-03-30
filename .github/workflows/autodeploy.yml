@@ -11,10 +11,10 @@ jobs:
         with:
           node-version: '16'
       - name: Install and build
-      - run: |
-          npm # install dependencies
-          npm run build --if-present
+        run: |
+          npm
           npm run test
+          npm run build --if-present
       # deploy site to netlify using secrets created on repository
       - uses: netlify/actions/cli@master
         env:
