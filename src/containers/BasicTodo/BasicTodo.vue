@@ -92,7 +92,7 @@ const handleHideCompleted = () => {
     </section>
     <ol data-testid="list">
       <li v-for="todo in computedFilter" :key="todo.id" :class="[todo.checked && 'strikethrough']">
-        <input :data-testid="todo.name" type="checkbox" v-model="todo.checked" />
+        <input :data-testid="todo.name" type="checkbox" @click="checkOrUncheck(todo.id.toString())" />
         <label :for="todo.id.toString()" @click="checkOrUncheck(todo.id.toString())">{{ todo.name }}</label>
         <button :data-testid="todo.name" @click="deleteTodo(todo)">x</button>
       </li>
