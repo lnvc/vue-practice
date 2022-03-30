@@ -42,8 +42,8 @@ jobs:
       - name: Install packages
         run: |
           sudo apt-get update
-          sudo apt-get install yarn
-          sudo apt-get install node
+          sudo apt install yarn
+          sudo apt install node
 
   test:
     runs-on: ubuntu-latest
