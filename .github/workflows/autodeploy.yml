@@ -10,9 +10,11 @@ jobs:
       - name: Setup Node.js # setup Node.js in the runner
         with:
           node-version: '16'
-      - run: npm # install dependencies
-      - run: npm run build --if-present # build the project
-      - run: npm run test # run the tests
+      - name: Install and build
+      - run: |
+          npm # install dependencies
+          npm run build --if-present
+          npm run test
       # deploy site to netlify using secrets created on repository
       - uses: netlify/actions/cli@master
         env:
