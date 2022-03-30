@@ -67,9 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build
-        run: |
-          yarn build
-          yarn preview
+        run: yarn
 
   docker:
     needs: [test, build]
