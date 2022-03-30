@@ -47,6 +47,9 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install Vue
+        run: npm i -g @vue/cli
+
   test:
     needs: init
     runs-on: ubuntu-latest
