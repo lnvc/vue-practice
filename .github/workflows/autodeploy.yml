@@ -15,7 +15,7 @@ jobs:
         run: |
           yarn
           yarn test
-          yarn build --if-present
+          yarn build
       # deploy site to netlify using secrets created on repository
       - uses: netlify/actions/cli@master
         env:
