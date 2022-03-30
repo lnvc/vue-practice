@@ -8,13 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3 # setup the repository in the runner
       - name: Setup Node.js # setup Node.js in the runner
+        uses: Borales/actions-yarn@v2.3.0
         with:
           node-version: '16'
       - name: Install and build
         run: |
-          npm
-          npm run test
-          npm run build --if-present
+          yarn
+          yarn test
+          yarn build --if-present
       # deploy site to netlify using secrets created on repository
       - uses: netlify/actions/cli@master
         env:
