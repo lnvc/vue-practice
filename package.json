@@ -6,7 +6,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest --reporter verbose"
+    "test": "vitest --reporter verbose --host 0.0.0.0"
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
