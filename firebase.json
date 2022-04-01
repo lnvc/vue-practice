@@ -3,7 +3,8 @@
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
-    ]
+    ],
+    "source": "functions"
   },
   "hosting": {
     "public": "dist",
@@ -28,6 +29,9 @@
     },
     "ui": {
       "enabled": true
+    },
+    "auth": {
+      "port": 9099
     }
   }
 }

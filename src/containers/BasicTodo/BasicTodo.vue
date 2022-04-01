@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, onMounted } from 'vue';
 import { useQuery, useMutation } from '@vue/apollo-composable';
 
 import { GET_ALL_TODOS } from '../../utils/queries';
 import { ADD_TODO, DELETE_TODO, CHECK_OR_UNCHECK } from '../../utils/mutations';
+import { useStore } from '../../utils/store';
 
 interface ITodo {
   id: number,
@@ -92,7 +93,7 @@ const handleHideCompleted = () => {
     </section>
     <ol data-testid="list">
       <li v-for="todo in computedFilter" :key="todo.id" :class="[todo.checked && 'strikethrough']">
-        <input :data-testid="todo.name" type="checkbox" @click="checkOrUncheck(todo.id.toString())" />
+        <input :data-testid="todo.name" type="checkbox" @click="checkOrUncheck(todo.id.toString())" :checked="todo.checked" />
         <label :for="todo.id.toString()" @click="checkOrUncheck(todo.id.toString())">{{ todo.name }}</label>
         <button :data-testid="todo.name" @click="deleteTodo(todo)">x</button>
       </li>
